@@ -64,6 +64,11 @@ TBBlog >> allCategories [
 	^ (self allBlogPosts collect: [ :p | p category ] ) asSet
 ]
 
+{ #category : #'as yet unclassified' }
+TBBlog >> allCategoriesWithVisiblePost [
+	^ ((posts select: [ :p | p isVisible ]) collect: [ :p | p category ]) asSet
+]
+
 { #category : #accessing }
 TBBlog >> allVisibleBlogPosts [
 	^ posts select: [ :post | post isVisible ]
@@ -83,6 +88,16 @@ TBBlog >> initialize [
 { #category : #'post-management' }
 TBBlog >> removeAllPosts [
 	posts := OrderedCollection new.
+]
+
+{ #category : #'blog-management' }
+TBBlog >> renameCategory: aCategoryStart to: aCategorySecond [ 
+	| f s |
+	f := posts select: [ :p | p category = aCategoryStart ].
+	s := f size.
+	(s = 0) ifTrue: [ ^ false ].
+	f do: [ :each | each category: aCategorySecond ].
+	^ true
 ]
 
 { #category : #accessing }

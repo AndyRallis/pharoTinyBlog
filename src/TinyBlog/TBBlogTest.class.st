@@ -50,6 +50,12 @@ TBBlogTest >> testAllCategories [
 ]
 
 { #category : #tests }
+TBBlogTest >> testAllCategoriesWithVisiblePost [
+	blog writeBlogPost: post.
+	self assert: (blog allCategoriesWithVisiblePost) size equals: 1
+]
+
+{ #category : #tests }
 TBBlogTest >> testAllVisibleBlogPosts [
 	blog writeBlogPost: post.
 	self assert: blog allVisibleBlogPosts size equals: 1
@@ -66,6 +72,14 @@ TBBlogTest >> testAllVisibleBlogPostsFromCategory [
 TBBlogTest >> testRemoveAllPosts [
 	blog removeAllPosts.
 	self assert: blog size equals: 0
+]
+
+{ #category : #tests }
+TBBlogTest >> testRenameCategoryTo [
+	self assert: (blog renameCategory: 'Second Category' to: 'Category Two') equals: false.
+	blog writeBlogPost: post.
+	self assert: (blog renameCategory: 'Second Category' to: 'Category Two') equals: true.
+	self assert: (blog allCategories includes: 'Category Two') equals: true	
 ]
 
 { #category : #tests }
