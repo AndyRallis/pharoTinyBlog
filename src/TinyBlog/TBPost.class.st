@@ -1,3 +1,6 @@
+"
+I am a Tiny Blog Post and contain date, text, title, category and visibility status. I should probably be contained inside a Tiny Blog. I should also probably have an author
+"
 Class {
 	#name : #TBPost,
 	#superclass : #Object,

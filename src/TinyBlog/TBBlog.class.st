@@ -1,3 +1,14 @@
+"
+I am a Tiny Blog engine. I hold Tiny Blog Posts and manage the collection of posts as well as filtering by category and visibility. 
+
+Public API:
+	- allBlogPosts returns everything
+	- allBlogPostsFromCategory: takes a category and filters 
+	- allCategories lists out the categories in the blog
+	- allVisibleBlogPosts returns only posts which are visible 
+	- allVisibleBlogPostsFromCategory: returns visible posts in a category 
+	- removeAllPosts refreshes the entire blog
+"
 Class {
 	#name : #TBBlog,
 	#superclass : #Object,
