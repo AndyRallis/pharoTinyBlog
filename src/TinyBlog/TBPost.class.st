@@ -14,20 +14,20 @@ Class {
 	#category : #TinyBlog
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creation - post' }
 TBPost class >> title: aTitle text: aText [
 	^ self new 
 		title: aTitle;
 		text: aText
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creation - post' }
 TBPost class >> title: aTitle text: aText category: aCategory [
 	^ (self title: aTitle text: aText)
 		category: aCategory
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'creation - post' }
 TBPost class >> unclassifiedTag [
 	^ 'Unclassified'
 ]

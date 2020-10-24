@@ -15,13 +15,10 @@ Class {
 	#instVars : [
 		'posts'
 	],
-	#classInstVars : [
-		'uniqueInstance'
-	],
 	#category : #TinyBlog
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #prototypes }
 TBBlog class >> createDemoPosts [
 	"TBBlog createDemoPosts" 
 	self current
@@ -36,7 +33,9 @@ TBBlog class >> createDemoPosts [
 { #category : #initialization }
 TBBlog class >> current [  
 	"send the instance of the TB repository"
-	^ uniqueInstance ifNil: [ uniqueInstance := self new ]
+	^ self selectAll
+		ifNotEmpty: [ :x | x anyOne ]
+		ifEmpty: [ self new save ]
 ]
 
 { #category : #initialization }
@@ -45,8 +44,26 @@ TBBlog class >> initialize [
 ]
 
 { #category : #initialization }
+TBBlog class >> initializeLocalhostMongoDB [
+	| repository |
+	repository := VOMongoRepository database: 'tinyblog'.
+	repository enableSingleton 
+]
+
+{ #category : #initialization }
+TBBlog class >> initializeVoyageOnMemoryDB [
+	VOMemoryRepository new enableSingleton
+]
+
+{ #category : #'voyage-root' }
+TBBlog class >> isVoyageRoot [
+	"Indicates that instances of this class are top level documents in noSQL databases"
+	^ true
+]
+
+{ #category : #initialization }
 TBBlog class >> reset [ 
-	uniqueInstance := nil
+	self initializeVoyageOnMemoryDB  
 ]
 
 { #category : #rolling }
@@ -61,10 +78,10 @@ TBBlog >> allBlogPostsFromCategory: aCategory [
 
 { #category : #categories }
 TBBlog >> allCategories [
-	^ (self allBlogPosts collect: [ :p | p category ] ) asSet
+	^ (self allBlogPosts collect: [ :p | p category ]) asSet
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 TBBlog >> allCategoriesWithVisiblePost [
 	^ ((posts select: [ :p | p isVisible ]) collect: [ :p | p category ]) asSet
 ]
@@ -88,6 +105,7 @@ TBBlog >> initialize [
 { #category : #'post-management' }
 TBBlog >> removeAllPosts [
 	posts := OrderedCollection new.
+	self save
 ]
 
 { #category : #'blog-management' }
@@ -108,5 +126,6 @@ TBBlog >> size [
 { #category : #'post-creation' }
 TBBlog >> writeBlogPost: aTBPost [ 
 	"Add blog post to list of blog posts"
-	posts add: aTBPost 
+	self allBlogPosts add: aTBPost.
+	self save
 ]
