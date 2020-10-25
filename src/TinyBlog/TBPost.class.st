@@ -11,7 +11,7 @@ Class {
 		'category',
 		'visible'
 	],
-	#category : #TinyBlog
+	#category : #'TinyBlog-Model'
 }
 
 { #category : #'creation - post' }

@@ -15,7 +15,7 @@ Class {
 	#instVars : [
 		'posts'
 	],
-	#category : #TinyBlog
+	#category : #'TinyBlog-Model'
 }
 
 { #category : #prototypes }
@@ -78,7 +78,7 @@ TBBlog >> allBlogPostsFromCategory: aCategory [
 
 { #category : #categories }
 TBBlog >> allCategories [
-	^ (self allBlogPosts collect: [ :p | p category ]) asSet
+	^ (self allBlogPosts collect: [ :p | p category ]) asSet addAllCategory
 ]
 
 { #category : #accessing }
@@ -92,8 +92,10 @@ TBBlog >> allVisibleBlogPosts [
 ]
 
 { #category : #accessing }
-TBBlog >> allVisibleBlogPostsFromCategory: aCategory [  
-	^ posts select: [ :p | p category = aCategory and: [ p isVisible  ] ]
+TBBlog >> allVisibleBlogPostsFromCategory: aCategory [
+	(aCategory = 'All') 
+		ifTrue: [ ^ self allVisibleBlogPosts ]
+		ifFalse: [ ^ posts select: [ :p | p category = aCategory and: [ p isVisible  ] ] ]
 ]
 
 { #category : #initialization }

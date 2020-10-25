@@ -49,7 +49,7 @@ TBBlogTest >> testAllBlogPostsFromCategory [
 { #category : #tests }
 TBBlogTest >> testAllCategories [
 	blog writeBlogPost: post.
-	self assert: blog allCategories size equals: 2
+	self assert: blog allCategories size equals: 3
 ]
 
 { #category : #tests }
