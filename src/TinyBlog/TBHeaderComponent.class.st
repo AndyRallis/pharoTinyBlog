@@ -19,11 +19,11 @@ TBHeaderComponent >> renderButtonsOn: html [
 
 { #category : #rendering }
 TBHeaderComponent >> renderContentOn: html [
-  html tbsNavbar beDefault; with: [
-     html tbsContainer: [
-      self renderBrandOn: html.
-		self renderSimpleAdminButtonOn: html
-	] ]
+	html tbsNavbar
+		beDefault;
+		with: [ html
+				tbsContainer: [ self renderBrandOn: html.
+					self renderButtonsOn: html ] ]
 ]
 
 { #category : #rendering }
