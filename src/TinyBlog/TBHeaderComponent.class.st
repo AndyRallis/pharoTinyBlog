@@ -13,9 +13,25 @@ TBHeaderComponent >> renderBrandOn: html [
 ]
 
 { #category : #rendering }
+TBHeaderComponent >> renderButtonsOn: html [
+	self renderSimpleAdminButtonOn: html
+]
+
+{ #category : #rendering }
 TBHeaderComponent >> renderContentOn: html [
   html tbsNavbar beDefault; with: [
      html tbsContainer: [
-      self renderBrandOn: html
+      self renderBrandOn: html.
+		self renderSimpleAdminButtonOn: html
 	] ]
+]
+
+{ #category : #rendering }
+TBHeaderComponent >> renderSimpleAdminButtonOn: html [
+	html form: [ 
+		html tbsNavbarButton
+		tbsPullRight;
+		with: [ 
+			html tbsGlyphIcon iconListAlt.
+			html text: ' Admin View' ] ]
 ]
