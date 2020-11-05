@@ -1,8 +1,28 @@
 Class {
 	#name : #TBHeaderComponent,
 	#superclass : #WAComponent,
+	#instVars : [
+		'component'
+	],
 	#category : #'TinyBlog-Components'
 }
+
+{ #category : #'instance creation' }
+TBHeaderComponent class >> from: aComponent [
+	^ self new
+		component: aComponent;
+		yourself
+]
+
+{ #category : #accessing }
+TBHeaderComponent >> component [
+	^ component 
+]
+
+{ #category : #accessing }
+TBHeaderComponent >> component: anObject [
+	component := anObject
+]
 
 { #category : #rendering }
 TBHeaderComponent >> renderBrandOn: html [
@@ -22,7 +42,7 @@ TBHeaderComponent >> renderContentOn: html [
   html tbsNavbar beDefault; with: [
      html tbsContainer: [
       self renderBrandOn: html.
-		self renderSimpleAdminButtonOn: html
+		self renderButtonsOn: html
 	] ]
 ]
 
@@ -31,6 +51,7 @@ TBHeaderComponent >> renderSimpleAdminButtonOn: html [
 	html form: [ 
 		html tbsNavbarButton
 		tbsPullRight;
+		callback: [ component goToAdministrationView ];
 		with: [ 
 			html tbsGlyphIcon iconListAlt.
 			html text: ' Admin View' ] ]
