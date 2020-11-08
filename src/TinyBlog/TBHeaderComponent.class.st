@@ -34,7 +34,7 @@ TBHeaderComponent >> renderBrandOn: html [
 
 { #category : #rendering }
 TBHeaderComponent >> renderButtonsOn: html [
-	self renderSimpleAdminButtonOn: html
+	self renderModalLoginButtonOn: html
 ]
 
 { #category : #rendering }
@@ -47,12 +47,22 @@ TBHeaderComponent >> renderContentOn: html [
 ]
 
 { #category : #rendering }
-TBHeaderComponent >> renderSimpleAdminButtonOn: html [
-	html form: [ 
-		html tbsNavbarButton
+TBHeaderComponent >> renderModalLoginButtonOn: html [
+	html render: (TBAuthenticationComponent from: component).
+	html tbsNavbarButton
 		tbsPullRight;
-		callback: [ component goToAdministrationView ];
-		with: [ 
-			html tbsGlyphIcon iconListAlt.
-			html text: ' Admin View' ] ]
+		attributeAt: 'data-target' put: '#myAuthDialog';
+		attributeAt: 'data-toggle' put: 'modal';
+		with: [ html tbsGlyphIcon iconLock.
+			html text: ' Login' ]
+]
+
+{ #category : #rendering }
+TBHeaderComponent >> renderSimpleAdminButtonOn: html [
+	html
+		form: [ html tbsNavbarButton
+				tbsPullRight;
+				callback: [ component goToAdministrationView ];
+				with: [ html tbsGlyphIcon iconListAlt.
+					html text: ' Admin View' ] ]
 ]
