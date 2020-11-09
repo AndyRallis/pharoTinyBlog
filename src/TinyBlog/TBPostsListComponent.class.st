@@ -4,10 +4,16 @@ Class {
 	#instVars : [
 		'postComponents',
 		'currentCategory',
-		'categoryComponent'
+		'categoryComponent',
+		'showLoginError'
 	],
 	#category : #'TinyBlog-Components'
 }
+
+{ #category : #rendering }
+TBPostsListComponent >> basicRenderPostsOn: html [
+	self postComponents do: [ :p | html render: p ]
+]
 
 { #category : #accessing }
 TBPostsListComponent >> categoryComponent [
@@ -32,15 +38,30 @@ TBPostsListComponent >> currentCategory: anObject [
 	currentCategory := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #administration }
 TBPostsListComponent >> goToAdministrationView [
 	self call: TBAdminComponent new
+]
+
+{ #category : #testing }
+TBPostsListComponent >> hasLoginError [
+	^ showLoginError ifNil: [ false ]
 ]
 
 { #category : #rendering }
 TBPostsListComponent >> initialize [ 
 	super initialize.
 	postComponents := OrderedCollection new
+]
+
+{ #category : #'error handing' }
+TBPostsListComponent >> loginErrorMessage [
+	^ 'Incorrect login and/or password'
+]
+
+{ #category : #'error handing' }
+TBPostsListComponent >> loginErrorOccurred [
+	showLoginError := true
 ]
 
 { #category : #rendering }
@@ -78,10 +99,32 @@ TBPostsListComponent >> renderContentOn: html [
 ]
 
 { #category : #rendering }
+TBPostsListComponent >> renderLoginErrorMessageIfAnyOn: html [
+	self hasLoginError
+		ifTrue: [ showLoginError := false.
+			html
+				tbsAlert
+				beDanger;
+				with: self loginErrorMessage ]
+]
+
+{ #category : #rendering }
 TBPostsListComponent >> renderPostColumnOn: html [ 
 	html tbsColumn 
 		extraSmallSize: 12;
 		smallSize: 10;
 		mediumSize: 8;
-		with: [ self postComponents do: [ :p | html render: p ] ]
+		with: [ 
+			self renderLoginErrorMessageIfAnyOn: html.
+			self basicRenderPostsOn: html]
+]
+
+{ #category : #authentication }
+TBPostsListComponent >> tryConnectionWithLogin: aLogin andPassword: aPassword [
+	(aLogin = self blog administrator login
+		and: [ (SHA256 hashMessage: aPassword) = self blog administrator password ])
+		ifTrue: [
+			self session currentAdmin: self blog administrator.
+			self goToAdministrationView ]
+		ifFalse: [ self loginErrorOccurred ]
 ]

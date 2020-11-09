@@ -13,13 +13,14 @@ TBApplicationRootComponent class >> canBeRoot [
 ]
 
 { #category : #'class initialization' }
-TBApplicationRootComponent class >> initialize [ 
+TBApplicationRootComponent class >> initialize [
 	| app |
 	app := WAAdmin register: self asApplicationAt: 'TinyBlog'.
+	app preferenceAt: #sessionClass put: TBSession.
 	app
 		addLibrary: JQDeploymentLibrary;
 		addLibrary: JQUiDeploymentLibrary;
-		addLibrary: TBSDeploymentLibrary.
+		addLibrary: TBSDeploymentLibrary
 ]
 
 { #category : #hooks }

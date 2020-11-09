@@ -6,15 +6,25 @@ Class {
 
 { #category : #rendering }
 TBAdminHeaderComponent >> renderButtonsOn: html [
-	html form: [ self renderDisconnectButtonOn: html ]
+	html form: [ self renderDisconnectButtonOn: html.
+		self renderPublicViewButtonOn: html ]
 ]
 
 { #category : #rendering }
 TBAdminHeaderComponent >> renderDisconnectButtonOn: html [
-	html tbsNavbarButton 
+	html tbsNavbarButton
 		tbsPullRight;
-		callback: [ component goToPostListView ];
-		with: [ 
-			html text: 'Disconnect '.
+		callback: [ self session reset ];
+		with: [ html text: 'Disconnect '.
 			html tbsGlyphIcon iconLogout ]
+]
+
+{ #category : #rendering }
+TBAdminHeaderComponent >> renderPublicViewButtonOn: html [
+	self session isLoggedIn ifTrue: [ 
+		html tbsNavbarButton
+			tbsPullRight;
+			callback: [ component goToPostListView ];
+			with: [ html tbsGlyphIcon iconEyeOpen.
+				html text: ' Public View' ] ]
 ]

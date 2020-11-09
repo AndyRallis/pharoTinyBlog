@@ -34,7 +34,10 @@ TBHeaderComponent >> renderBrandOn: html [
 
 { #category : #rendering }
 TBHeaderComponent >> renderButtonsOn: html [
-	self renderModalLoginButtonOn: html
+	self session isLoggedIn
+		ifTrue: [ self renderSimpleAdminButtonOn: html ]
+		ifFalse: [ self renderModalLoginButtonOn: html ]
+	
 ]
 
 { #category : #rendering }
