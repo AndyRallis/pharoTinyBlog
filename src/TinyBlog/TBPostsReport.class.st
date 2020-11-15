@@ -23,16 +23,21 @@ TBPostsReport class >> from: aBlog [
 		rows: blogPosts
 		description: (self filteredDescriptionsFrom: blogPosts anyOne).
 	report blog: aBlog.
-	report
-		addColumn:
-			(MACommandColumn new
-				addCommandOn: report selector: #viewPost: text: 'View';
-				yourself;
-				addCommandOn: report selector: #editPost: text: 'Edit';
-				yourself;
-				addCommandOn: report selector: #deletePost: text: 'Delete';
-				yourself).
+	report addColumns.
+
 	^ report
+]
+
+{ #category : #'post-management' }
+TBPostsReport >> addColumns [
+		self addColumn:
+			(MACommandColumn new
+				addCommandOn: self selector: #viewPost: text: 'View';
+				yourself;
+				addCommandOn: self selector: #editPost: text: 'Edit';
+				yourself;
+				addCommandOn: self selector: #deletePost: text: 'Delete';
+				yourself).
 ]
 
 { #category : #'post-management' }
