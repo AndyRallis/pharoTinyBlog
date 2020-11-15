@@ -134,6 +134,12 @@ TBBlog >> removeAllPosts [
 	self save
 ]
 
+{ #category : #removing }
+TBBlog >> removeBlogPost: aPost [
+	posts remove: aPost ifAbsent: [ ].
+	self save
+]
+
 { #category : #'blog-management' }
 TBBlog >> renameCategory: aCategoryStart to: aCategorySecond [ 
 	| f s |

@@ -5,7 +5,7 @@ Class {
 		'login',
 		'password'
 	],
-	#category : #TinyBlog
+	#category : #'TinyBlog-Components'
 }
 
 { #category : #administration }
