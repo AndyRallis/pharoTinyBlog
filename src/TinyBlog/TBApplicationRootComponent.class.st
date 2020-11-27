@@ -7,7 +7,7 @@ Class {
 	#category : #'TinyBlog-Components'
 }
 
-{ #category : #testing }
+{ #category : #'class initialization' }
 TBApplicationRootComponent class >> canBeRoot [
 	^ true
 ]
